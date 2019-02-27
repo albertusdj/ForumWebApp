@@ -1,5 +1,9 @@
 .center {
     margin: auto;
-    width: 40%;
+    width: 25%;
     text-align: center;
+}
+
+a {
+    font-size: 80%;
 }

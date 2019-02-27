@@ -4,32 +4,39 @@ import 'bootstrap/dist/css/bootstrap.css';
 import '../../css/form.css';
 import {FormError} from '../utility/form-error.js';
 
-class LoginForm extends Component {
+class RegisterForm extends Component {
     constructor (props) {
         super(props);
         this.state = {
             username : '',
             password : '',
-            formError : {username : '', password : ''},
+            email : '',
+            formError : {username : '', password : '', email : ''},
             usernameValid : false,
             passwordValid : false,
+            emailValid : false,
             formValid : false
         }
     }
 
     validateForm() {
-        this.setState({formValid : this.state.usernameValid && this.state.passwordValid});
+        this.setState({formValid : this.state.usernameValid && this.state.passwordValid && this.state.emailValid});
     }
 
     validateField(name, value) {
         let fieldValidationError = this.state.formError;
         let usernameValid = this.state.usernameValid;
         let passwordValid = this.state.passwordValid;
+        let emailValid = this.state.emailValid;
 
         switch(name) {
             case 'username':
                 usernameValid = value.match(/\w{4,10}/i);
                 fieldValidationError.username = usernameValid ? '' : ' must contain 4-10 alphanumeric letters or underscore';
+                break;
+            case 'email':
+                emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+                fieldValidationError.email = emailValid ? '' : ' not valid';
                 break;
             case 'password':
                 passwordValid = value.length >= 6 && value.length <= 15;
@@ -57,18 +64,23 @@ class LoginForm extends Component {
         return (
             <div className="App center">
                 <div className="App-header">
-                    <h2>Login</h2>
+                    <h2>Register</h2>
                 </div>
 
                 <div className="card">
                     <FormError formError={this.state.formError} />
                 </div>
 
-                <form className="LoginForm">
+                <form className="RegisterForm">
                     <div className="form-group">
                         <label htmlFor="username">Username</label>
                         <input type="text" className="form-control" name="username" 
                         value={this.state.username} onChange={(event) => this.handleUserInput(event)}/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="email">Email</label>
+                        <input type="text" className="form-control" name="email" 
+                        value={this.state.email} onChange={(event) => this.handleUserInput(event)}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Password</label>
@@ -76,16 +88,16 @@ class LoginForm extends Component {
                         value={this.state.password} onChange={(event) => this.handleUserInput(event)}/>
                     </div>
                     <button type="submit" className="btn btn-primary" disabled={!this.state.formValid}>
-                        Login
+                        Sign up
                     </button>
                 </form>
-                <a href='/register/'>New ? Sign up here</a>
+                <a href='/login/'>Already have account ? Log in here</a>
             </div>
         );
     }
 }
 
 ReactDOM.render(
-    <LoginForm />,
+    <RegisterForm />,
     document.getElementById('root')
   );

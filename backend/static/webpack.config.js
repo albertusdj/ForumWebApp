@@ -4,7 +4,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
   mode: 'development',
   entry: {
-  	login: './src/js/login-page/login.js'
+		login: './src/js/login-page/login.js',
+		register: './src/js/register-page/register.js'
   },
   output: {
     filename: '[name].bundle.js',
