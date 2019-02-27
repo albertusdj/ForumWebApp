@@ -1,11 +1,11 @@
 import React from 'react';
 
-export const FormError = ({formError}) => {
+export const FormError = ({formError}) =>
     <div className='formError'>
-        {Object.key(formError).map((fieldName, i) => {
+        {Object.keys(formError).map((fieldName, i) => {
             if(formError[fieldName].length > 0){
                 return (
-                    <p key={i}>{fieldName} {formError[fieldName]}</p>
+                    <div key={i} className="card-body">{fieldName} {formError[fieldName]}</div>
                 );
             }
             else {
@@ -13,4 +13,3 @@ export const FormError = ({formError}) => {
             }
         })}
     </div>
-};
