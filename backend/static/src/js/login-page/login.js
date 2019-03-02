@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../css/form.css';
 import {FormError} from '../utility/form-error.js';
+import CSRFToken from '../utility/csrf-token.js';
 
 class LoginForm extends Component {
     constructor (props) {
@@ -28,11 +29,11 @@ class LoginForm extends Component {
 
         switch(name) {
             case 'username':
-                usernameValid = value.match(/\w{4,10}/i);
+                usernameValid = value.match(/\w{4,20}/i);
                 fieldValidationError.username = usernameValid ? '' : ' must contain 4-10 alphanumeric letters or underscore';
                 break;
             case 'password':
-                passwordValid = value.length >= 6 && value.length <= 15;
+                passwordValid = value.length >= 6 && value.length <= 30;
                 fieldValidationError.password = passwordValid ? '' : ' must have length between 6 and 15';
                 break;
             default:
@@ -64,7 +65,7 @@ class LoginForm extends Component {
                     <FormError formError={this.state.formError} />
                 </div>
 
-                <form className="LoginForm">
+                <form className="LoginForm" action="/login/" method="POST">
                     <div className="form-group">
                         <label htmlFor="username">Username</label>
                         <input type="text" className="form-control" name="username" 
@@ -75,6 +76,7 @@ class LoginForm extends Component {
                         <input type="password" className="form-control" name="password" 
                         value={this.state.password} onChange={(event) => this.handleUserInput(event)}/>
                     </div>
+                    <CSRFToken />
                     <button type="submit" className="btn btn-primary" disabled={!this.state.formValid}>
                         Login
                     </button>

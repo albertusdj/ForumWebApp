@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../css/form.css';
 import {FormError} from '../utility/form-error.js';
+import CSRFToken from '../utility/csrf-token.js';
 
 class RegisterForm extends Component {
     constructor (props) {
@@ -21,6 +22,10 @@ class RegisterForm extends Component {
 
     validateForm() {
         this.setState({formValid : this.state.usernameValid && this.state.passwordValid && this.state.emailValid});
+        console.log("usernamevalid=" + this.state.usernameValid);
+        console.log("passwordvalid=" + this.state.passwordValid);
+        console.log("emailvalid="+this.state.emailValid);
+        console.log("formvalid=" + this.state.formValid);
     }
 
     validateField(name, value) {
@@ -31,7 +36,7 @@ class RegisterForm extends Component {
 
         switch(name) {
             case 'username':
-                usernameValid = value.match(/\w{4,10}/i);
+                usernameValid = value.match(/\w{4,20}/i);
                 fieldValidationError.username = usernameValid ? '' : ' must contain 4-10 alphanumeric letters or underscore';
                 break;
             case 'email':
@@ -49,7 +54,8 @@ class RegisterForm extends Component {
         this.setState({
             formError : fieldValidationError,
             usernameValid : usernameValid,
-            passwordValid : passwordValid
+            passwordValid : passwordValid,
+            emailValid : emailValid
         }, this.validateForm());
     }
 
@@ -71,7 +77,7 @@ class RegisterForm extends Component {
                     <FormError formError={this.state.formError} />
                 </div>
 
-                <form className="RegisterForm">
+                <form className="RegisterForm" action="/register/" method="POST">
                     <div className="form-group">
                         <label htmlFor="username">Username</label>
                         <input type="text" className="form-control" name="username" 
@@ -87,6 +93,7 @@ class RegisterForm extends Component {
                         <input type="password" className="form-control" name="password" 
                         value={this.state.password} onChange={(event) => this.handleUserInput(event)}/>
                     </div>
+                    <CSRFToken />
                     <button type="submit" className="btn btn-primary" disabled={!this.state.formValid}>
                         Sign up
                     </button>

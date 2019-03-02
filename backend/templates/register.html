@@ -7,7 +7,7 @@
 
     <body>
         <div id="root">
-            
+            {% csrf_token %}
         </div>
         {% load staticfiles %}
         <script src="{% static 'dist/register.bundle.js' %}"></script>
