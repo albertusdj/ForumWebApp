@@ -5,7 +5,8 @@ module.exports = {
   mode: 'development',
   entry: {
 		login: './src/js/login-page/login.js',
-		register: './src/js/register-page/register.js'
+		register: './src/js/register-page/register.js',
+		navbar: './src/js/component/navbar.js'
   },
   output: {
     filename: '[name].bundle.js',

@@ -7,6 +7,7 @@ from .utility import createHashPassword, authenticateUser, findIfUserExist
 import random
 import string
 from datetime import datetime, timezone
+from django.core import serializers
 
 @ensure_csrf_cookie
 def index(request):
@@ -16,7 +17,7 @@ def index(request):
     if activeUser==None:
         return redirect('login')
     
-    return HttpResponse('This is index')
+    return render(request, 'index.html')
 
 @ensure_csrf_cookie
 def login(request):
@@ -66,3 +67,13 @@ def register(request):
             return redirect('login')
         else:
             return render(request, 'register.html')
+
+@ensure_csrf_cookie
+def logout(request):
+    token = request.COOKIES.get('login')
+    activeUser = ActiveUser.objects.get(token=token)
+    activeUser.delete()
+
+    response = redirect('login')
+    response.delete_cookie('login')
+    return response
