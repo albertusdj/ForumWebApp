@@ -10,8 +10,8 @@ class LogInForm(forms.Form):
     password = forms.CharField(label='Password', max_length=256)
 
 class QuestionForm(forms.Form):
-    title = forms.Charfield(label='Title', max_length=50)
-    content = forms.Charfield(label='Content', max_length=256)
+    title = forms.CharField(label='Title', max_length=50)
+    content = forms.CharField(label='Content', max_length=256)
 
 class AnswerForm(forms.Form):
     content = forms.CharField(label='Answer', max_length=1024)

@@ -23,7 +23,7 @@ def authenticateUser(token):
     activeUser = activeUsers[0]
     duration = (now - activeUser.created).total_seconds()
     print(duration)
-    timeLimit = 20
+    timeLimit = 2 * 60 * 60
 
     if duration > timeLimit:
         activeUser.delete()

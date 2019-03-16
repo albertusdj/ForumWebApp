@@ -1,0 +1,7 @@
+.absoluteView {
+    position: relative;
+}
+
+.relativeView {
+    position: absolute;
+}

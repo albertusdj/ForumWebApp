@@ -6,7 +6,8 @@ module.exports = {
   entry: {
 		login: './src/js/login-page/login.js',
 		register: './src/js/register-page/register.js',
-		navbar: './src/js/component/navbar.js'
+		navbar: './src/js/component/navbar.js',
+		ask: './src/js/ask-page/ask.js'
   },
   output: {
     filename: '[name].bundle.js',

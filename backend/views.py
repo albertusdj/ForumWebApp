@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import User, ActiveUser
+from .models import User, ActiveUser, Question, Answer
 from django.views.decorators.csrf import ensure_csrf_cookie
-from .forms import SignUpForm, LogInForm
+from .forms import SignUpForm, LogInForm, QuestionForm, AnswerForm
 from .utility import createHashPassword, authenticateUser, findIfUserExist
 import random
 import string
@@ -77,3 +77,30 @@ def logout(request):
     response = redirect('login')
     response.delete_cookie('login')
     return response
+
+@ensure_csrf_cookie
+def ask(request):
+    if request.method=='GET':
+        token = request.COOKIES.get('login')
+        activeUser = authenticateUser(token)
+
+        if activeUser == None:
+            return redirect('login')
+        else:
+            return render(request, 'ask.html')
+    elif request.method=='POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            token = request.COOKIES.get('login')
+            currentUser = ActiveUser.objects.get(token=token)
+
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+
+            newQuestion = Question(title=title, content=content)
+            newQuestion.user = currentUser.user
+            newQuestion.created = datetime.now(timezone.utc)
+
+            newQuestion.save()
+
+            return redirect(index)

@@ -1,7 +1,12 @@
 .center {
     margin: auto;
-    width: 25%;
     text-align: center;
+}
+
+.questionAndAnswer {
+    width: 60%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 a {
