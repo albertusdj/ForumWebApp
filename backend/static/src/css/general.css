@@ -5,3 +5,17 @@
 .relativeView {
     position: absolute;
 }
+
+.smallFont {
+    font-size: 12px;
+}
+
+.link, .link:hover {
+   color:black;
+   text-decoration: none; 
+   background-color: none;
+}
+
+.answerButton {
+    width: 15%;
+}

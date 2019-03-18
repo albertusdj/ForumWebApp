@@ -8,6 +8,7 @@ import random
 import string
 from datetime import datetime, timezone
 from django.core import serializers
+import json
 
 @ensure_csrf_cookie
 def index(request):
@@ -18,6 +19,11 @@ def index(request):
         return redirect('login')
     
     return render(request, 'index.html')
+
+@ensure_csrf_cookie
+def getQuestions(request):
+    questions = serializers.serialize('json', Question.objects.all())
+    return HttpResponse(questions, content_type='application/json')
 
 @ensure_csrf_cookie
 def login(request):
@@ -104,3 +110,34 @@ def ask(request):
             newQuestion.save()
 
             return redirect(index)
+
+@ensure_csrf_cookie
+def answer(request):
+    if request.method=='GET':
+        token = request.COOKIES.get('login')
+        activeUser = authenticateUser(token)
+
+        if activeUser == None:
+            return redirect('login')
+        else:
+            return render(request, 'answer.html')
+
+@ensure_csrf_cookie
+def getDetail(request):
+    if request.method=='GET':
+        token = request.COOKIES.get('login')
+        activeUser = authenticateUser(token)
+
+        if activeUser == None:
+            return redirect('login')
+        else:
+            questionID = request.GET.get('id', '')
+            question = Question.objects.filter(pk=questionID)
+            answers = Answer.objects.filter(question=questionID)
+
+            props = {
+                'question': serializers.serialize('json', question),
+                'answers': serializers.serialize('json', answers) 
+            }
+
+            return render(request, 'detail.html', {'props':props})

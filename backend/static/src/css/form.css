@@ -9,6 +9,15 @@
     transform: translateX(-50%);
 }
 
+.questionCard {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 a {
     font-size: 80%;
 }

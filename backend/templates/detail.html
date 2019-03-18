@@ -12,9 +12,11 @@
         <div id="root">
             
         </div>
-        
+        <script>
+            window.props = {{props|safe}};
+        </script>
         {% load staticfiles %}
         <script src="{% static 'dist/navbar.bundle.js' %}"></script>
-        <script src="{% static 'dist/index.bundle.js' %}"></script>
+        <script src="{% static 'dist/detail.bundle.js' %}"></script>
     </body>
 </html>
