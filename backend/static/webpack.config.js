@@ -9,7 +9,8 @@ module.exports = {
 		navbar: './src/js/component/navbar.js',
 		ask: './src/js/ask-page/ask.js',
 		index: './src/js/index-page/index.js',
-		detail: './src/js/detail-page/detail.js'
+		detail: './src/js/detail-page/detail.js',
+		answer: './src/js/answer-page/answer.js'
   },
   output: {
     filename: '[name].bundle.js',

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Answer</title>
+    </head>
+
+    <body>
+
+        <div id="header">
+
+        </div>
+        <div id="root">
+            
+        </div>
+
+        <script>
+            window.props = {{props|safe}};
+        </script>
+        {% load staticfiles %}
+        <script src="{% static 'dist/navbar.bundle.js' %}"></script>
+        <script src="{% static 'dist/answer.bundle.js' %}"></script>
+    </body>
+</html>

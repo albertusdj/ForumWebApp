@@ -28,7 +28,7 @@ class Questions extends Component {
                             <li className="card questionCard link">
                                 <h3>{question.fields.title}</h3>
                                 <p className="smallFont">Ask by {question.fields.user} at {question.fields.created}</p>
-                                <p>{question.fields.content}</p>
+                                <p className="mediumFont">{question.fields.content}</p>
                             </li>
                         </a>
                     ))

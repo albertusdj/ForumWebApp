@@ -41,14 +41,14 @@ def login(request):
             username = form.cleaned_data['username']
             password = createHashPassword(form.cleaned_data['password'])
 
-            user = User.objects.get(username=username, password=password)
-            if user==None:
+            user = User.objects.filter(username=username, password=password)
+            if not user:
                 return render(request, 'login.html')
             else:
                 response = redirect('index')
                 cookie = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
                 activeUser = ActiveUser(token=cookie)
-                activeUser.user = user
+                activeUser.user = user[0]
                 activeUser.created = datetime.now(timezone.utc)
                 activeUser.save()
                 response.set_cookie('login', cookie)
@@ -109,7 +109,7 @@ def ask(request):
 
             newQuestion.save()
 
-            return redirect(index)
+            return redirect('index')
 
 @ensure_csrf_cookie
 def answer(request):
@@ -120,7 +120,30 @@ def answer(request):
         if activeUser == None:
             return redirect('login')
         else:
-            return render(request, 'answer.html')
+            questionID = request.GET.get('question', '')
+            props = {
+                'id': questionID
+            }
+            return render(request, 'answer.html', {'props':json.dumps(props)})
+    elif request.method=='POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            token = request.COOKIES.get('login')
+            currentUser = ActiveUser.objects.get(token=token)
+
+            content = form.cleaned_data['content']
+            questionID = request.POST.get('id')
+            
+            question = Question.objects.get(pk=questionID)
+
+            newAnswer = Answer(content=content)
+            newAnswer.created = datetime.now(timezone.utc)
+            newAnswer.question = question
+            newAnswer.user = currentUser.user
+
+            newAnswer.save()
+
+            return redirect('/detail/?id=' + questionID)
 
 @ensure_csrf_cookie
 def getDetail(request):

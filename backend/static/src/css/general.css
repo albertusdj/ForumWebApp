@@ -10,6 +10,10 @@
     font-size: 12px;
 }
 
+.mediumFont {
+    font-size: 16px;
+}
+
 .link, .link:hover {
    color:black;
    text-decoration: none; 

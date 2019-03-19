@@ -11,18 +11,30 @@ class Detail extends Component {
             question: JSON.parse(props.question),
             answers: JSON.parse(props.answers)
         }
-
-        console.log(typeof(this.state.question));
+        console.log(this.state.answers);
     }
 
     render() {
         return (
             <div className="relativeView questionAndAnswer">
+                
                 <div className="card questionCard">
-                        <h3>{this.state.question[0].fields.title}</h3>
-                        <p className="smallFont">Ask by {this.state.question[0].fields.user} at {this.state.question[0].fields.created}</p>
-                        <p>{this.state.question[0].fields.content}</p>
-                        <a href="http://google.com" className="btn btn-primary answerButton">Answer</a>
+                    <h3>{this.state.question[0].fields.title}</h3>
+                    <p className="smallFont">Ask by {this.state.question[0].fields.user} at {this.state.question[0].fields.created}</p>
+                    <p>{this.state.question[0].fields.content}</p>
+                    <a href={"/answer/?question="+this.state.question[0].pk} className="btn btn-primary answerButton">Answer</a>
+                </div>
+                
+
+                <div >
+                {
+                    this.state.answers.map((answer, i) => (
+                        <li className="card questionCard" key={i}>
+                            <p className="smallFont">Answer by {answer.fields.user} at {answer.fields.created}</p>
+                            <p>{answer.fields.content}</p>
+                        </li>
+                    ))
+                }
                 </div>
             </div>
         )
