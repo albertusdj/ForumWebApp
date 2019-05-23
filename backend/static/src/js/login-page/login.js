@@ -18,10 +18,6 @@ class LoginForm extends Component {
         }
     }
 
-    validateForm() {
-        this.setState({formValid : this.state.usernameValid && this.state.passwordValid});
-    }
-
     validateField(name, value) {
         let fieldValidationError = this.state.formError;
         let usernameValid = this.state.usernameValid;
@@ -29,7 +25,7 @@ class LoginForm extends Component {
 
         switch(name) {
             case 'username':
-                usernameValid = value.match(/\w{4,20}/i);
+                usernameValid = value.length >= 4 && value.length <= 20;
                 fieldValidationError.username = usernameValid ? '' : ' must contain 4-10 alphanumeric letters or underscore';
                 break;
             case 'password':
@@ -43,13 +39,15 @@ class LoginForm extends Component {
         this.setState({
             formError : fieldValidationError,
             usernameValid : usernameValid,
-            passwordValid : passwordValid
-        }, this.validateForm());
+            passwordValid : passwordValid,
+            formValid : usernameValid && passwordValid
+        });
     }
 
     handleUserInput (e) {
         const name = e.target.name;
         const value = e.target.value;
+
         this.setState({[name]:value},
             ()=>{this.validateField(name, value)});
     }
