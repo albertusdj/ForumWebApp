@@ -20,14 +20,6 @@ class RegisterForm extends Component {
         }
     }
 
-    validateForm() {
-        this.setState({formValid : this.state.usernameValid && this.state.passwordValid && this.state.emailValid});
-        console.log("usernamevalid=" + this.state.usernameValid);
-        console.log("passwordvalid=" + this.state.passwordValid);
-        console.log("emailvalid="+this.state.emailValid);
-        console.log("formvalid=" + this.state.formValid);
-    }
-
     validateField(name, value) {
         let fieldValidationError = this.state.formError;
         let usernameValid = this.state.usernameValid;
@@ -55,8 +47,9 @@ class RegisterForm extends Component {
             formError : fieldValidationError,
             usernameValid : usernameValid,
             passwordValid : passwordValid,
-            emailValid : emailValid
-        }, this.validateForm());
+            emailValid : emailValid,
+            formValid : usernameValid && passwordValid && emailValid
+        });
     }
 
     handleUserInput (e) {
